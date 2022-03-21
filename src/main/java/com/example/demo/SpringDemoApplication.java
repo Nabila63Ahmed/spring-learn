@@ -2,9 +2,7 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -12,6 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 public class SpringDemoApplication {
 
+	private final AtomicLong idCounter = new AtomicLong();
 	private final AtomicLong counter = new AtomicLong();
 
 	public static void main(String[] args) {
@@ -33,6 +32,12 @@ public class SpringDemoApplication {
 	/*JSON Response*/
 	@GetMapping("/greeting")
 	public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return new Greeting(counter.incrementAndGet(), String.format("Hello, %s!", name));
+		return new Greeting(idCounter.incrementAndGet(), String.format("Hello, %s!", name));
+	}
+
+	/*Increment counter*/
+	@GetMapping("/counter")
+	public long incrementCounter(@RequestParam(value = "increment", defaultValue = "1") int increment) {
+		return counter.addAndGet(increment);
 	}
 }
