@@ -40,4 +40,11 @@ public class SpringDemoApplication {
 	public long incrementCounter(@RequestParam(value = "increment", defaultValue = "1") int increment) {
 		return counter.addAndGet(increment);
 	}
+
+	/*Post Request*/
+	@PostMapping("/postGreeting")
+	public Greeting postGreeting(@RequestBody Greeting greeting){
+		System.out.print(greeting.getContent());
+		return greeting;
+	}
 }
