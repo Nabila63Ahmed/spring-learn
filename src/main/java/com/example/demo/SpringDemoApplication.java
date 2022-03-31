@@ -52,7 +52,6 @@ public class SpringDemoApplication {
 	/*Post Request: List in body, choose an item and greet with*/
 	@PostMapping("/postGreetings")
 	public String postGreetings(@RequestParam(value = "index", defaultValue = "0") int index, @RequestBody Greeting[] greetings) {
-		String name = greetings!=null & index < greetings.length? greetings[index].getContent(): "World";
-		return String.format("Hello %s!", name);
+		return greetings!=null & index < greetings.length? greetings[index].getContent(): "Hello World!";
 	}
 }
