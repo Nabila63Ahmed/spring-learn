@@ -1,18 +1,24 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicLong;
 
 @SpringBootApplication
 @RestController
+@CrossOrigin(origins = "*")
 public class SpringDemoApplication {
 
 	private final AtomicLong idCounter = new AtomicLong();
 	private final AtomicLong counter = new AtomicLong();
+
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private PersonRepository personRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringDemoApplication.class, args);
@@ -53,5 +59,24 @@ public class SpringDemoApplication {
 	@PostMapping("/postGreetings")
 	public String postGreetings(@RequestParam(value = "index", defaultValue = "0") int index, @RequestBody Greeting[] greetings) {
 		return greetings!=null & index < greetings.length? greetings[index].getContent(): "Hello World!";
+	}
+
+	@PostMapping(path="/addUser")
+	public @ResponseBody String addNewUser (@RequestParam String name, @RequestParam String email) {
+		User user = new User();
+		user.setName(name);
+		user.setEmail(email);
+		userRepository.save(user);
+		return "Saved";
+	}
+
+	@GetMapping(path="/allUsers")
+	public @ResponseBody Iterable<User> getAllUsers() {
+		return userRepository.findAll();
+	}
+
+	@GetMapping(path = "/people/findByLastName")
+	public @ResponseBody Iterable<Person> findByLastName(@RequestParam String name) {
+		return personRepository.findByLastName(name);
 	}
 }
