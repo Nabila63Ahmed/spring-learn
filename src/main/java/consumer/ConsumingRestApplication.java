@@ -1,16 +1,15 @@
-package com.example.consumer;
+package consumer;
 
 import com.example.demo.Greeting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class ConsumingRestApplication {
 
     private static final Logger log = LoggerFactory.getLogger(ConsumingRestApplication.class);
