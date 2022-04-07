@@ -1,14 +1,10 @@
-#FROM openjdk:8-jdk-alpine
-FROM maven:3.6
+FROM gradle:7.4.0-jdk11
 
 WORKDIR /spring-demo
 
-COPY pom.xml .
-#RUN mvn install
+COPY . .
+RUN gradle build -x test --no-daemon
 
-COPY src .
-RUN mvn -f pom.xml clean test package
-#RUN mvn compiler:compile
-#RUN mvn package
+EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/target/spring-demo-2.2.6.jar"]
+ENTRYPOINT ["java", "-jar", "/spring-demo/build/libs/spring-demo-0.0.1-SNAPSHOT.jar"]
